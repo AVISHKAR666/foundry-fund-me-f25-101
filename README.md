@@ -6,7 +6,7 @@ I built a crowdfunding-style smart contract in Solidity where anyone can send ET
 
 🔹 Key Features
 
-Minimum Funding Requirement → Contributors must send a minimum amount of ETH, calculated using Chainlink price feeds to keep the value consistent in USD (e.g., $50).
+Minimum Funding Requirement → Contributors must send a minimum amount of ETH, calculated using Chainlink price feeds to keep the value consistent in USD (e.g., $5).
 
 Data Tracking → Every funder’s contribution is stored in a mapping + array, so the contract keeps track of who funded and how much.
 
@@ -37,4 +37,5 @@ Foundry (Forge for testing, Cast for interaction, Anvil for local blockchain)
 Chainlink Price Feeds
 
 Mock contracts for simulation.
+
 
