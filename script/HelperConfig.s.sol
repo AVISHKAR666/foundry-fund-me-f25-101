@@ -5,50 +5,40 @@ import {Script} from "forge-std/Script.sol";
 import {MockV3Aggregator} from "../test/mocks/MockV3Aggregator.sol";
 
 contract HelperConfig is Script {
-
     // refactor magic numbers
     uint8 public constant DECIMALS = 8;
     int256 public constant INITIAL_PRICE = 2000e8;
 
     NetworkConfig public currentNetworkConfig;
 
-    struct NetworkConfig{
+    struct NetworkConfig {
         address priceFeedAddress;
     }
 
-    constructor(){
-        if(block.chainid==11155111){
+    constructor() {
+        if (block.chainid == 11155111) {
             currentNetworkConfig = getSepoliaEthConfig();
-        }
-        else if(block.chainid==4){
+        } else if (block.chainid == 4) {
             currentNetworkConfig = getMainnetEthConfig();
-        }
-        else{
+        } else {
             currentNetworkConfig = getOrCreateAnvilEthConfig();
         }
     }
 
     // 1. grab the existing address from the live network
-
-    function getSepoliaEthConfig() pure public returns(NetworkConfig memory){
-        NetworkConfig memory sepoliaConfig = NetworkConfig({
-            priceFeedAddress:0x694AA1769357215DE4FAC081bf1f309aDC325306
-        });
+    function getSepoliaEthConfig() public pure returns (NetworkConfig memory) {
+        NetworkConfig memory sepoliaConfig =
+            NetworkConfig({priceFeedAddress: 0x694AA1769357215DE4FAC081bf1f309aDC325306});
         return sepoliaConfig;
     }
 
-    function getMainnetEthConfig() pure public returns(NetworkConfig memory){
-        NetworkConfig memory ethConfig = NetworkConfig({
-            priceFeedAddress:0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419
-        });
+    function getMainnetEthConfig() public pure returns (NetworkConfig memory) {
+        NetworkConfig memory ethConfig = NetworkConfig({priceFeedAddress: 0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419});
         return ethConfig;
     }
 
-
-
     // 2. if we are on a local anvil, we deploy mock pricefeed contract
-    function getOrCreateAnvilEthConfig() public returns(NetworkConfig memory){
-
+    function getOrCreateAnvilEthConfig() public returns (NetworkConfig memory) {
         if (currentNetworkConfig.priceFeedAddress != address(0)) {
             return currentNetworkConfig;
         }
@@ -60,10 +50,7 @@ contract HelperConfig is Script {
         MockV3Aggregator mockPriceFeedContract = new MockV3Aggregator(DECIMALS, INITIAL_PRICE);
         vm.stopBroadcast();
 
-        NetworkConfig memory anvilConfig = NetworkConfig({
-            priceFeedAddress : address(mockPriceFeedContract) 
-        });
+        NetworkConfig memory anvilConfig = NetworkConfig({priceFeedAddress: address(mockPriceFeedContract)});
         return anvilConfig;
     }
-
 }

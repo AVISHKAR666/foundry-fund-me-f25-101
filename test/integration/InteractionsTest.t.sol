@@ -1,4 +1,4 @@
- // SPDX-License-Identifier: MIT
+    // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.28;
 
 import "forge-std/Test.sol";
@@ -14,21 +14,18 @@ contract InteractionsTest is Test {
     uint256 constant SEND_VALUE = 10e18;
     uint256 constant STARTING_BALANCE = 100e18;
 
-    function setUp() external{
+    function setUp() external {
         DeployFundMe deployFundMe = new DeployFundMe();
         fundMe = deployFundMe.run();
     }
 
-
     function testUserCanFundInteractions() public {
-        FundFundMe fundFundMe  =  new FundFundMe();
+        FundFundMe fundFundMe = new FundFundMe();
         fundFundMe.fundFundMe(address(fundMe));
 
-        WithdrawFundMe  withdrawFundMe =  new WithdrawFundMe();
+        WithdrawFundMe withdrawFundMe = new WithdrawFundMe();
         withdrawFundMe.withdrawFundMe(address(fundMe));
 
         assert(address(fundMe).balance == 0);
-
     }
-
 }
